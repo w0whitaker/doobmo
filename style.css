@@ -1,0 +1,30 @@
+.nodelist {
+  display: inline-flex;
+  flex-wrap: wrap;
+}
+
+.entry {
+  padding: 1rem;
+  font-family: monospace;
+  border: 1px solid black;
+}
+
+.element {
+  background-color: lawngreen;
+}
+
+.text {
+  background-color: turquoise;
+}
+
+.comment {
+  background-color: coral;
+}
+
+.document {
+  background-color: dodgerblue;
+}
+
+.doctype {
+  background-color: darkmagenta;
+}
