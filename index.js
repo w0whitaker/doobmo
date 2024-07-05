@@ -1,34 +1,173 @@
+class NodeBlock {
+  constructor(node) {
+    this.node = node;
+  }
+
+  nope() {
+    return "No node here.";
+  }
+
+  name() {
+    return (this.name = this.node.nodeName);
+  }
+
+  type() {
+    return (this.type = this.node.nodeType);
+  }
+
+  label() {
+    let label;
+    switch (this.node.nodeType) {
+      case 1:
+        label = "ELEMENT_NODE";
+        break;
+      case 2:
+        label = "ATTRIBUTE_NODE";
+        break;
+      case 3:
+        label = "TEXT_NODE";
+        break;
+      case 4:
+        label = "CDATA_SECTION_NODE";
+      case 7:
+        // only for XML
+        label = "PROCESSING_INSTRUCTION_NODE";
+        break;
+      case 8:
+        label = "COMMENT_NODE";
+        break;
+      case 9:
+        label = "DOCUMENT_NODE";
+        break;
+      case 10:
+        label = "DOCUMENT_TYPE_NODE";
+        break;
+      case 11:
+        label = "DOCUMENT_FRAGMENT_NODE";
+        break;
+    }
+    return label;
+  }
+
+  style() {
+    let style;
+    switch (this.node.nodeType) {
+      case 1:
+        style = "element";
+        break;
+      case 2:
+        style = "attribute";
+        break;
+      case 3:
+        style = "text";
+        break;
+      case 4:
+        style = "cdata";
+        break;
+      case 7:
+        // only for XML
+        style = "";
+        break;
+      case 8:
+        style = "comment";
+        break;
+      case 9:
+        style = "document";
+        break;
+      case 10:
+        style = "doctype";
+        break;
+      case 11:
+        style = "fragment";
+        break;
+    }
+    return style;
+  }
+
+  parent() {
+    if (this.node.parentNode != null) {
+      return (this.parent = this.node.parentNode.nodeName);
+    } else {
+      return this.nope();
+    }
+  }
+
+  sibling() {
+    if (this.node.nextSibling != null) {
+      return (this.sibling = this.node.nextSibling.nodeName);
+    } else {
+      return this.nope();
+    }
+  }
+
+  printNode() {
+    if (!!this.node) {
+      let nodeInfoBlock = `
+      <div class="entry ${this.style()}">
+        <p>name: ${this.name()}</p>
+        <p>type: ${this.type()} (${this.label()})</p>
+        <p>parent: ${this.parent()}</p>
+        <p>sibling: ${this.sibling()}</p>
+      </div>
+      `;
+      return nodeInfoBlock;
+    } else {
+      return this.nope();
+    }
+  }
+
+  placeNode() {
+    let host = document.querySelector("#host");
+    let output = host.shadowRoot.querySelector("#output");
+    output.insertAdjacentHTML("beforeend", this.printNode());
+  }
+}
+
+const nowde = document;
+const node1 = new NodeBlock(nowde);
+node1.placeNode();
+
 // utility to provide a human-readable label for each nodeType.
 function getNodeLabel(node) {
   let nodeLabel;
+  let nodeStyle = "plain";
   switch (node.nodeType) {
     case 1:
       nodeLabel = "ELEMENT_NODE";
+      nodeStyle = "element";
       break;
     case 2:
       nodeLabel = "ATTRIBUTE_NODE";
+      nodeStyle = "attribute";
       break;
     case 3:
       nodeLabel = "TEXT_NODE";
+      nodeStyle = "text";
       break;
     case 4:
       nodeLabel = "CDATA_SECTION_NODE";
+      nodeStyle = "cdata";
       break;
     case 7:
       // only for XML
       nodeLabel = "PROCESSING_INSTRUCTION_NODE";
+      nodeStyle = "processing";
       break;
     case 8:
       nodeLabel = "COMMENT_NODE";
+      nodeStyle = "comment";
       break;
     case 9:
       nodeLabel = "DOCUMENT_NODE";
+      nodeStyle = "document";
       break;
     case 10:
       nodeLabel = "DOCUMENT_TYPE_NODE";
+      nodeStyle = "doctype";
       break;
     case 11:
       nodeLabel = "DOCUMENT_FRAGMENT_NODE";
+      nodeStyle = "fragment";
       break;
   }
   return nodeLabel;
@@ -156,6 +295,6 @@ function domWalker(origin) {
 
 const start = document;
 
-domWalker(start);
+// domWalker(start);
 // let model = document.querySelector("#model");
 // console.log(model.getAttribute("id"));
