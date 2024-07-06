@@ -10,6 +10,8 @@
   padding: 1rem;
   font-family: monospace;
   border-radius: 15px;
+  background-color: #1f1f1f;
+  color: goldenrod;
 }
 
 .element {
