@@ -3,6 +3,8 @@ class NodeBlock {
     this.node = node;
   }
 
+  #customProps = {};
+
   // utility to check if node's textContent is only whitespace characters
   is_all_ws(node) {
     if (node.nodeType == 3) {
@@ -14,18 +16,37 @@ class NodeBlock {
     return "No node here.";
   }
 
-  name() {
+  // "nf" is used throughout as a namespace of sorts,
+  // it stands for "node-field"
+
+  get nfName() {
     return (this.name = this.node.nodeName);
   }
 
-  type() {
+  get nfType() {
     return (this.type = this.node.nodeType);
+  }
+
+  get nfParent() {
+    if (this.node.parentNode != null) {
+      return (this.parent = this.node.parentNode.nodeName);
+    } else {
+      return this.nope();
+    }
+  }
+
+  get nfSibling() {
+    if (this.node.nextSibling != null) {
+      return (this.sibling = this.node.nextSibling.nodeName);
+    } else {
+      return this.nope();
+    }
   }
 
   // generate a human-readable version of the nodeType
   label() {
     let label;
-    switch (this.node.nodeType) {
+    switch (this.nfType) {
       case 1:
         label = "ELEMENT_NODE";
         break;
@@ -92,30 +113,14 @@ class NodeBlock {
     return style;
   }
 
-  parent() {
-    if (this.node.parentNode != null) {
-      return (this.parent = this.node.parentNode.nodeName);
-    } else {
-      return this.nope();
-    }
-  }
-
-  sibling() {
-    if (this.node.nextSibling != null) {
-      return (this.sibling = this.node.nextSibling.nodeName);
-    } else {
-      return this.nope();
-    }
-  }
-
   printNode() {
     if (!!this.node) {
       let nodeInfoBlock = `
       <div class="entry ${this.style()}">
-        <p>name: ${this.name()}</p>
-        <p>type: ${this.type()} (${this.label()})</p>
-        <p>parent: ${this.parent()}</p>
-        <p>sibling: ${this.sibling()}</p>
+        <p>name: ${this.nfName}</p>
+        <p>type: ${this.nfType} (${this.label()})</p>
+        <p>parent: ${this.nfParent}</p>
+        <p>sibling: ${this.nfSibling}</p>
       </div>
       `;
       return nodeInfoBlock;
@@ -169,7 +174,7 @@ function domWalker(origin) {
   // if there are children, walk them
   checkNode(origin);
 }
-
+console.log(this.cu);
 const start = document;
 
 domWalker(start);
