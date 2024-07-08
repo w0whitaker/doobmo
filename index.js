@@ -233,8 +233,8 @@ function setProps(node) {
 
 const domRanger = (origin) => {
   const walker = document.createTreeWalker(origin, NodeFilter.SHOW_ALL);
-  setProps(walker.currentNode);
-  const block = new NodeBlock(
+  setProps(origin);
+  let block = new NodeBlock(
     nodeProperties.ndName,
     nodeProperties.ndType,
     nodeProperties.ndParent,
@@ -245,7 +245,7 @@ const domRanger = (origin) => {
   block.printNode();
   while (walker.nextNode()) {
     setProps(walker.currentNode);
-    const block = new NodeBlock(
+    block = new NodeBlock(
       nodeProperties.ndName,
       nodeProperties.ndType,
       nodeProperties.ndParent,
